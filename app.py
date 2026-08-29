@@ -172,7 +172,7 @@ anomaly_df = filtered_df[filtered_df['Anomaly_Score'] == -1][
 ].sort_values('OEE')
 
 st.dataframe(
-    anomaly_df.style.applymap(
+    anomaly_df.style.map(
         lambda x: 'background-color: #ffcccc' 
         if isinstance(x, float) and x < 65 else '',
         subset=['OEE']
