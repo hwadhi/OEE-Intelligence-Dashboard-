@@ -96,7 +96,6 @@ st.markdown(f"""
     font-weight: 600;
   }}
   
-  /* Tabs Visibility Fixes for Light & Dark Mode */
   .stTabs [data-baseweb="tab-list"] {{
     gap: 8px;
     background-color: transparent;
@@ -457,10 +456,12 @@ with tab1:
             zmin=50, zmax=90
         ))
         fig_heat.update_layout(
-            **CHART,
-            title="",
-            xaxis=dict(title="Shift", showgrid=False, tickfont=dict(color=text, size=12), titlefont=dict(color=text)),
-            yaxis=dict(title="Machine", showgrid=False, tickfont=dict(color=text, size=12), titlefont=dict(color=text))
+            paper_bgcolor=chart_bg,
+            plot_bgcolor=chart_bg,
+            font=dict(color=text, size=11),
+            margin=dict(l=8, r=8, t=32, b=8),
+            xaxis=dict(title="Shift", showgrid=False, tickfont=dict(color=text, size=12)),
+            yaxis=dict(title="Machine", showgrid=False, tickfont=dict(color=text, size=12))
         )
         st.plotly_chart(fig_heat, use_container_width=True)
 
@@ -556,9 +557,15 @@ with tab2:
         ))
         fig5.add_vline(x=95, line_dash="dash", line_color=green, line_width=1,
                        annotation_text="Target 95%", annotation_font_color=green)
-        fig5.update_layout(**CHART, title="Supplier OTIF Score (%)",
-                           xaxis=dict(range=[0, 110], showgrid=False, tickfont=dict(color=text)),
-                           yaxis=dict(showgrid=False, tickfont=dict(color=text)))
+        fig5.update_layout(
+            paper_bgcolor=chart_bg,
+            plot_bgcolor=chart_bg,
+            font=dict(color=text, size=11),
+            margin=dict(l=8, r=8, t=32, b=8),
+            title="Supplier OTIF Score (%)",
+            xaxis=dict(range=[0, 110], showgrid=False, tickfont=dict(color=text)),
+            yaxis=dict(showgrid=False, tickfont=dict(color=text))
+        )
         st.plotly_chart(fig5, use_container_width=True)
 
         fig6 = go.Figure(go.Scatter(
@@ -574,9 +581,15 @@ with tab2:
             mode='lines', line=dict(color=red, width=2, dash='dash'),
             name=f'Trend (r={corr:.2f})'
         ))
-        fig6.update_layout(**CHART, title=f"Inventory Buffer vs OEE (Pearson r = {corr:.3f})",
-                           xaxis=dict(title="Inventory Buffer Days", showgrid=True, gridcolor=f'{border}', tickfont=dict(color=text), titlefont=dict(color=text)),
-                           yaxis=dict(title="Average OEE %", showgrid=True, gridcolor=f'{border}', tickfont=dict(color=text), titlefont=dict(color=text)))
+        fig6.update_layout(
+            paper_bgcolor=chart_bg,
+            plot_bgcolor=chart_bg,
+            font=dict(color=text, size=11),
+            margin=dict(l=8, r=8, t=32, b=8),
+            title=f"Inventory Buffer vs OEE (Pearson r = {corr:.3f})",
+            xaxis=dict(title="Inventory Buffer Days", showgrid=True, gridcolor=f'{border}', tickfont=dict(color=text)),
+            yaxis=dict(title="Average OEE %", showgrid=True, gridcolor=f'{border}', tickfont=dict(color=text))
+        )
         st.plotly_chart(fig6, use_container_width=True)
 
         st.markdown(f"<div style='font-size:11px;font-weight:700;color:{accent};text-transform:uppercase;letter-spacing:1px;margin-bottom:10px'>Supplier Risk Ranking</div>", unsafe_allow_html=True)
@@ -653,10 +666,13 @@ with tab3:
             annotation_text="Min threshold 65%", annotation_font_color=amber
         )
         fig_anom.update_layout(
-            **CHART,
+            paper_bgcolor=chart_bg,
+            plot_bgcolor=chart_bg,
+            font=dict(color=text, size=11),
+            margin=dict(l=8, r=8, t=32, b=8),
             title="OEE Scatter — Anomalous shifts highlighted in red",
-            xaxis=dict(showgrid=False, title="Date", tickfont=dict(color=text), titlefont=dict(color=text)),
-            yaxis=dict(showgrid=True, gridcolor=f"{border}", title="OEE %", range=[0, 100], tickfont=dict(color=text), titlefont=dict(color=text))
+            xaxis=dict(showgrid=False, title="Date", tickfont=dict(color=text)),
+            yaxis=dict(showgrid=True, gridcolor=f"{border}", title="OEE %", range=[0, 100], tickfont=dict(color=text))
         )
         st.plotly_chart(fig_anom, use_container_width=True)
 
