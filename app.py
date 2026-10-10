@@ -96,6 +96,7 @@ st.markdown(f"""
     font-weight: 600;
   }}
   
+  /* Tabs Visibility Fixes */
   .stTabs [data-baseweb="tab-list"] {{
     gap: 8px;
     background-color: transparent;
@@ -109,8 +110,14 @@ st.markdown(f"""
     border: 1px solid {border};
     border-bottom: none;
   }}
+  .stTabs [data-baseweb="tab"] p {{
+    color: {text} !important;
+  }}
   .stTabs [aria-selected="true"] {{
     background-color: {accent} !important;
+    color: #FFFFFF !important;
+  }}
+  .stTabs [aria-selected="true"] p {{
     color: #FFFFFF !important;
   }}
 
@@ -121,11 +128,25 @@ st.markdown(f"""
 </style>
 """, unsafe_allow_html=True)
 
+# ─── GLOBAL CHART DEFAULTS WITH FULL AXIS VISIBILITY ───
 CHART = dict(
     paper_bgcolor=chart_bg,
     plot_bgcolor=chart_bg,
     font=dict(color=text, size=11),
-    margin=dict(l=8, r=8, t=32, b=8)
+    margin=dict(l=8, r=8, t=32, b=8),
+    xaxis=dict(
+        title=dict(font=dict(color=text, size=12)),
+        tickfont=dict(color=text, size=11),
+        showgrid=False,
+        zeroline=False
+    ),
+    yaxis=dict(
+        title=dict(font=dict(color=text, size=12)),
+        tickfont=dict(color=text, size=11),
+        showgrid=True,
+        gridcolor=border,
+        zeroline=False
+    )
 )
 
 # ─── DATA CALCULATION HELPERS ──────────────────
@@ -455,14 +476,9 @@ with tab1:
             showscale=True,
             zmin=50, zmax=90
         ))
-        fig_heat.update_layout(
-            paper_bgcolor=chart_bg,
-            plot_bgcolor=chart_bg,
-            font=dict(color=text, size=11),
-            margin=dict(l=8, r=8, t=32, b=8),
-            xaxis=dict(title="Shift", showgrid=False, tickfont=dict(color=text, size=12)),
-            yaxis=dict(title="Machine", showgrid=False, tickfont=dict(color=text, size=12))
-        )
+        fig_heat.update_layout(**CHART, title="")
+        fig_heat.update_xaxes(title_text="Shift")
+        fig_heat.update_yaxes(title_text="Machine")
         st.plotly_chart(fig_heat, use_container_width=True)
 
     st.divider()
@@ -557,15 +573,9 @@ with tab2:
         ))
         fig5.add_vline(x=95, line_dash="dash", line_color=green, line_width=1,
                        annotation_text="Target 95%", annotation_font_color=green)
-        fig5.update_layout(
-            paper_bgcolor=chart_bg,
-            plot_bgcolor=chart_bg,
-            font=dict(color=text, size=11),
-            margin=dict(l=8, r=8, t=32, b=8),
-            title="Supplier OTIF Score (%)",
-            xaxis=dict(range=[0, 110], showgrid=False, tickfont=dict(color=text)),
-            yaxis=dict(showgrid=False, tickfont=dict(color=text))
-        )
+        fig5.update_layout(**CHART, title="Supplier OTIF Score (%)")
+        fig5.update_xaxes(title_text="OTIF Rate (%)", range=[0, 110])
+        fig5.update_yaxes(title_text="Supplier")
         st.plotly_chart(fig5, use_container_width=True)
 
         fig6 = go.Figure(go.Scatter(
@@ -581,15 +591,9 @@ with tab2:
             mode='lines', line=dict(color=red, width=2, dash='dash'),
             name=f'Trend (r={corr:.2f})'
         ))
-        fig6.update_layout(
-            paper_bgcolor=chart_bg,
-            plot_bgcolor=chart_bg,
-            font=dict(color=text, size=11),
-            margin=dict(l=8, r=8, t=32, b=8),
-            title=f"Inventory Buffer vs OEE (Pearson r = {corr:.3f})",
-            xaxis=dict(title="Inventory Buffer Days", showgrid=True, gridcolor=f'{border}', tickfont=dict(color=text)),
-            yaxis=dict(title="Average OEE %", showgrid=True, gridcolor=f'{border}', tickfont=dict(color=text))
-        )
+        fig6.update_layout(**CHART, title=f"Inventory Buffer vs OEE (Pearson r = {corr:.3f})")
+        fig6.update_xaxes(title_text="Inventory Buffer Days")
+        fig6.update_yaxes(title_text="Average OEE %")
         st.plotly_chart(fig6, use_container_width=True)
 
         st.markdown(f"<div style='font-size:11px;font-weight:700;color:{accent};text-transform:uppercase;letter-spacing:1px;margin-bottom:10px'>Supplier Risk Ranking</div>", unsafe_allow_html=True)
@@ -665,15 +669,9 @@ with tab3:
             y=65, line_dash="dot", line_color=amber, line_width=1,
             annotation_text="Min threshold 65%", annotation_font_color=amber
         )
-        fig_anom.update_layout(
-            paper_bgcolor=chart_bg,
-            plot_bgcolor=chart_bg,
-            font=dict(color=text, size=11),
-            margin=dict(l=8, r=8, t=32, b=8),
-            title="OEE Scatter — Anomalous shifts highlighted in red",
-            xaxis=dict(showgrid=False, title="Date", tickfont=dict(color=text)),
-            yaxis=dict(showgrid=True, gridcolor=f"{border}", title="OEE %", range=[0, 100], tickfont=dict(color=text))
-        )
+        fig_anom.update_layout(**CHART, title="OEE Scatter — Anomalous shifts highlighted in red")
+        fig_anom.update_xaxes(title_text="Date")
+        fig_anom.update_yaxes(title_text="OEE %", range=[0, 100])
         st.plotly_chart(fig_anom, use_container_width=True)
 
     st.divider()
