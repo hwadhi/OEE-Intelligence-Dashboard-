@@ -55,7 +55,6 @@ st.markdown(f"""
     border-right: 1px solid {border} !important;
   }}
   
-  /* Metric Styling Fixes */
   [data-testid="metric-container"] {{
     background: linear-gradient(135deg, {surface}, {surface2});
     border: 1px solid {border};
@@ -76,7 +75,6 @@ st.markdown(f"""
     font-weight: 600;
   }}
   
-  /* Upload & Button Styling */
   [data-testid="stFileUploader"] {{
     border: 2px dashed {accent}60 !important;
     border-radius: 12px !important;
@@ -98,7 +96,6 @@ st.markdown(f"""
     font-weight: 600;
   }}
   
-  /* Tabs Styling */
   .stTabs [data-baseweb="tab-list"] {{
     gap: 8px;
   }}
@@ -116,7 +113,6 @@ st.markdown(f"""
     color: #FFFFFF !important;
   }}
 
-  /* Mobile responsiveness */
   @media(max-width: 768px) {{
     [data-testid="stMetricValue"] {{font-size: 20px !important;}}
     .block-container {{padding: 1rem 0.5rem !important;}}
@@ -212,41 +208,38 @@ def load_sample():
 # SCREEN 1: LANDING PAGE (ENTRY PORTAL)
 # ══════════════════════════════════════════════
 if not st.session_state.entered:
-    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
     
     col_l1, col_l2, col_l3 = st.columns([1, 8, 1])
     with col_l2:
-        st.markdown(f"""
-        <div style='text-align: center; background: linear-gradient(135deg, {surface}, {surface2}); 
-                    padding: 50px 30px; border-radius: 24px; border: 1px solid {border};
-                    box-shadow: 0 20px 40px rgba(0,0,0,0.15); margin-bottom: 25px;'>
-            <div style='display:inline-block; padding:4px 16px; border-radius:20px; background:{accent}20; 
-                        color:{accent}; font-size:12px; font-weight:700; border:1px solid {accent}40; letter-spacing:1px;'>
-                PRODUCTION INTELLIGENCE v2.0
-            </div>
-            <div style='font-size: 52px; font-weight: 900; color: {text}; margin-top: 15px; letter-spacing: -1px; line-height: 1.1;'>
-                OEEiq
-            </div>
-            <div style='font-size: 18px; color: {subtext}; margin-top: 15px; max-width: 650px; margin-left: auto; margin-right: auto; font-weight: 400; line-height: 1.6;'>
-                Next-generation High Pressure Die Casting (HPDC) operational analytics. Bridge the gap between shop-floor downtime and executive financial decisions.
-            </div>
-            
-            <div style='display: flex; justify-content: center; gap: 24px; margin-top: 35px; flex-wrap: wrap;'>
-                <div style='background: {bg}; padding: 16px 24px; border-radius: 12px; border: 1px solid {border}; text-align: left; min-width: 170px;'>
-                    <div style='font-size: 11px; color: {subtext}; font-weight: 700; text-transform: uppercase;'>Anomaly Engine</div>
-                    <div style='font-size: 15px; font-weight: 700; color: {text}; margin-top: 4px;'>Isolation Forest</div>
-                </div>
-                <div style='background: {bg}; padding: 16px 24px; border-radius: 12px; border: 1px solid {border}; text-align: left; min-width: 170px;'>
-                    <div style='font-size: 11px; color: {subtext}; font-weight: 700; text-transform: uppercase;'>Financial Intelligence</div>
-                    <div style='font-size: 15px; font-weight: 700; color: {text}; margin-top: 4px;'>Real-time Loss Quantification</div>
-                </div>
-                <div style='background: {bg}; padding: 16px 24px; border-radius: 12px; border: 1px solid {border}; text-align: left; min-width: 170px;'>
-                    <div style='font-size: 11px; color: {subtext}; font-weight: 700; text-transform: uppercase;'>Supply Chain</div>
-                    <div style='font-size: 15px; font-weight: 700; color: {text}; margin-top: 4px;'>OTIF & Buffer Correlation</div>
-                </div>
-            </div>
+        landing_html = f"""
+<div style="text-align: center; background: linear-gradient(135deg, {surface}, {surface2}); padding: 40px 24px; border-radius: 24px; border: 1px solid {border}; box-shadow: 0 20px 40px rgba(0,0,0,0.15); margin-bottom: 25px;">
+    <div style="display:inline-block; padding:4px 16px; border-radius:20px; background:{accent}20; color:{accent}; font-size:12px; font-weight:700; border:1px solid {accent}40; letter-spacing:1px;">
+        PRODUCTION INTELLIGENCE v2.0
+    </div>
+    <div style="font-size: 52px; font-weight: 900; color: {text}; margin-top: 15px; letter-spacing: -1px; line-height: 1.1;">
+        OEEiq
+    </div>
+    <div style="font-size: 16px; color: {subtext}; margin-top: 15px; max-width: 650px; margin-left: auto; margin-right: auto; font-weight: 400; line-height: 1.6;">
+        Next-generation High Pressure Die Casting (HPDC) operational analytics. Bridge the gap between shop-floor downtime and executive financial decisions.
+    </div>
+    <div style="display: flex; justify-content: center; gap: 16px; margin-top: 30px; flex-wrap: wrap;">
+        <div style="background: {bg}; padding: 16px 20px; border-radius: 12px; border: 1px solid {border}; text-align: left; min-width: 180px;">
+            <div style="font-size: 11px; color: {subtext}; font-weight: 700; text-transform: uppercase;">Anomaly Engine</div>
+            <div style="font-size: 14px; font-weight: 700; color: {text}; margin-top: 4px;">Isolation Forest ML</div>
         </div>
-        """, unsafe_allow_html=True)
+        <div style="background: {bg}; padding: 16px 20px; border-radius: 12px; border: 1px solid {border}; text-align: left; min-width: 180px;">
+            <div style="font-size: 11px; color: {subtext}; font-weight: 700; text-transform: uppercase;">Financial Intelligence</div>
+            <div style="font-size: 14px; font-weight: 700; color: {text}; margin-top: 4px;">Real-time Loss Metrics</div>
+        </div>
+        <div style="background: {bg}; padding: 16px 20px; border-radius: 12px; border: 1px solid {border}; text-align: left; min-width: 180px;">
+            <div style="font-size: 11px; color: {subtext}; font-weight: 700; text-transform: uppercase;">Supply Chain</div>
+            <div style="font-size: 14px; font-weight: 700; color: {text}; margin-top: 4px;">OTIF & Buffer Correlation</div>
+        </div>
+    </div>
+</div>
+"""
+        st.markdown(landing_html, unsafe_allow_html=True)
         
         btn_col1, btn_col2, btn_col3 = st.columns([2, 3, 2])
         with btn_col2:
@@ -255,7 +248,7 @@ if not st.session_state.entered:
                 st.rerun()
 
     st.markdown(f"""
-    <div style='text-align:center; color:{subtext}; font-size:12px; margin-top: 40px;'>
+    <div style="text-align:center; color:{subtext}; font-size:12px; margin-top: 30px;">
         Built by <b>Heramb</b> | Production Engineering, VJTI Mumbai '27
     </div>
     """, unsafe_allow_html=True)
