@@ -225,7 +225,7 @@ with st.sidebar:
     <div style='text-align:center;font-size:10px;color:{subtext};padding:8px 0'>
       Built by <b>Heramb</b> | VJTI'27<br>
       Production Engineering · Data Science<br>
-      <a href='mailto:heramb@vjti.ac.in' style='color:{accent}'>Request demo</a>
+      <a href='mailto:hvwadhi_b23@pe.vjti.ac.in' style='color:{accent}'>Request demo</a>
     </div>
     """, unsafe_allow_html=True)
 
