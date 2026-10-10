@@ -552,7 +552,7 @@ st.markdown(f"""
      padding:32px 0 16px;border-top:1px solid {border};margin-top:40px'>
   🏭 <b>OEEiq</b> — Production Intelligence Platform &nbsp;|&nbsp;
   Built by <b>Heramb</b> | Production Engineering | VJTI Mumbai '27 &nbsp;|&nbsp;
-  Dataset: HPDC Line (CIE Automotive) &nbsp;|&nbsp;
-  <a href='mailto:heramb@vjti.ac.in' style='color:{accent}'>Request live demo</a>
+  Dataset: HPDC Line &nbsp;|&nbsp;
+  <a href='mailto:hvwadhi_b23@pe.vjti.ac.in' style='color:{accent}'>Request live demo</a>
 </div>
 """, unsafe_allow_html=True)
