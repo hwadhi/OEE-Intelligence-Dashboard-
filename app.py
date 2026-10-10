@@ -210,7 +210,7 @@ def load_sample():
 if not st.session_state.entered:
     col_top1, col_top2 = st.columns([10, 2])
     with col_top2:
-        theme_label = "☀️ Light Mode" if dark else "🌙 Dark Mode"
+        theme_label = "☀️ Light" if dark else "🌙 Dark"
         if st.button(theme_label, use_container_width=True):
             st.session_state.dark_mode = not st.session_state.dark_mode
             st.rerun()
@@ -231,15 +231,15 @@ if not st.session_state.entered:
         Next-generation High Pressure Die Casting (HPDC) operational analytics. Bridge the gap between shop-floor downtime and executive financial decisions.
     </div>
     <div style="display: flex; justify-content: center; gap: 16px; margin-top: 30px; flex-wrap: wrap;">
-        <div style="background: {bg}; padding: 16px 20px; border-radius: 12px; border: 1px solid {border}; text-align: left; min-width: 180px;">
+        <div style="background: {surface}; padding: 16px 20px; border-radius: 12px; border: 1px solid {border}; text-align: left; min-width: 180px;">
             <div style="font-size: 11px; color: {subtext}; font-weight: 700; text-transform: uppercase;">Anomaly Engine</div>
             <div style="font-size: 14px; font-weight: 700; color: {text}; margin-top: 4px;">Isolation Forest ML</div>
         </div>
-        <div style="background: {bg}; padding: 16px 20px; border-radius: 12px; border: 1px solid {border}; text-align: left; min-width: 180px;">
+        <div style="background: {surface}; padding: 16px 20px; border-radius: 12px; border: 1px solid {border}; text-align: left; min-width: 180px;">
             <div style="font-size: 11px; color: {subtext}; font-weight: 700; text-transform: uppercase;">Financial Intelligence</div>
             <div style="font-size: 14px; font-weight: 700; color: {text}; margin-top: 4px;">Real-time Loss Metrics</div>
         </div>
-        <div style="background: {bg}; padding: 16px 20px; border-radius: 12px; border: 1px solid {border}; text-align: left; min-width: 180px;">
+        <div style="background: {surface}; padding: 16px 20px; border-radius: 12px; border: 1px solid {border}; text-align: left; min-width: 180px;">
             <div style="font-size: 11px; color: {subtext}; font-weight: 700; text-transform: uppercase;">Supply Chain</div>
             <div style="font-size: 14px; font-weight: 700; color: {text}; margin-top: 4px;">OTIF & Buffer Correlation</div>
         </div>
