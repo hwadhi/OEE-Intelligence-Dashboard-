@@ -27,11 +27,11 @@ if 'dark_mode' not in st.session_state:
 dark = st.session_state.dark_mode
 
 # ─── COLOR PALETTE & CONTRAST FIXES ────────────
-bg       = "#0F1117" if dark else "#FFFFFF"
-surface   = "#1A1D2E" if dark else "#F8F9FA"
-surface2  = "#252840" if dark else "#EDF2F7"
-text      = "#FAFAFA" if dark else "#111827"
-subtext   = "#9CA3AF" if dark else "#4B5563"
+bg       = "#0F1117" if dark else "#F8FAFC"
+surface   = "#1A1D2E" if dark else "#FFFFFF"
+surface2  = "#252840" if dark else "#F1F5F9"
+text      = "#FAFAFA" if dark else "#0F172A"
+subtext   = "#9CA3AF" if dark else "#475569"
 accent    = "#6C63FF"
 green     = "#00E676" if dark else "#059669"
 red       = "#FF5252" if dark else "#DC2626"
@@ -60,7 +60,7 @@ st.markdown(f"""
     border: 1px solid {border};
     border-radius: 14px;
     padding: 18px 14px;
-    box-shadow: { '0 4px 20px rgba(0,0,0,0.2)' if dark else '0 2px 10px rgba(0,0,0,0.05)' };
+    box-shadow: { '0 4px 20px rgba(0,0,0,0.2)' if dark else '0 2px 10px rgba(0,0,0,0.04)' };
   }}
   [data-testid="stMetricValue"] {{
     font-size: 26px !important;
@@ -96,12 +96,14 @@ st.markdown(f"""
     font-weight: 600;
   }}
   
+  /* Tabs Visibility Fixes for Light & Dark Mode */
   .stTabs [data-baseweb="tab-list"] {{
     gap: 8px;
+    background-color: transparent;
   }}
   .stTabs [data-baseweb="tab"] {{
-    background-color: {surface};
-    color: {subtext};
+    background-color: {surface} !important;
+    color: {text} !important;
     border-radius: 8px 8px 0 0;
     padding: 10px 20px;
     font-weight: 600;
@@ -402,7 +404,7 @@ with tab1:
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # Intelligence Summary Box (Compact & Cleanly Wrapped)
+    # Intelligence Summary Box
     if not fdf.empty:
         worst_machine = fdf.groupby("Machine_ID")["OEE"].mean().idxmin()
         worst_shift = fdf.groupby("Shift")["OEE"].mean().idxmin()
@@ -457,8 +459,8 @@ with tab1:
         fig_heat.update_layout(
             **CHART,
             title="",
-            xaxis=dict(title="Shift", showgrid=False, tickfont=dict(color=text)),
-            yaxis=dict(title="Machine", showgrid=False, tickfont=dict(color=text))
+            xaxis=dict(title="Shift", showgrid=False, tickfont=dict(color=text, size=12), titlefont=dict(color=text)),
+            yaxis=dict(title="Machine", showgrid=False, tickfont=dict(color=text, size=12), titlefont=dict(color=text))
         )
         st.plotly_chart(fig_heat, use_container_width=True)
 
@@ -573,8 +575,8 @@ with tab2:
             name=f'Trend (r={corr:.2f})'
         ))
         fig6.update_layout(**CHART, title=f"Inventory Buffer vs OEE (Pearson r = {corr:.3f})",
-                           xaxis=dict(title="Inventory Buffer Days", showgrid=True, gridcolor=f'{border}', tickfont=dict(color=text)),
-                           yaxis=dict(title="Average OEE %", showgrid=True, gridcolor=f'{border}', tickfont=dict(color=text)))
+                           xaxis=dict(title="Inventory Buffer Days", showgrid=True, gridcolor=f'{border}', tickfont=dict(color=text), titlefont=dict(color=text)),
+                           yaxis=dict(title="Average OEE %", showgrid=True, gridcolor=f'{border}', tickfont=dict(color=text), titlefont=dict(color=text)))
         st.plotly_chart(fig6, use_container_width=True)
 
         st.markdown(f"<div style='font-size:11px;font-weight:700;color:{accent};text-transform:uppercase;letter-spacing:1px;margin-bottom:10px'>Supplier Risk Ranking</div>", unsafe_allow_html=True)
@@ -653,8 +655,8 @@ with tab3:
         fig_anom.update_layout(
             **CHART,
             title="OEE Scatter — Anomalous shifts highlighted in red",
-            xaxis=dict(showgrid=False, title="Date", tickfont=dict(color=text)),
-            yaxis=dict(showgrid=True, gridcolor=f"{border}", title="OEE %", range=[0, 100], tickfont=dict(color=text))
+            xaxis=dict(showgrid=False, title="Date", tickfont=dict(color=text), titlefont=dict(color=text)),
+            yaxis=dict(showgrid=True, gridcolor=f"{border}", title="OEE %", range=[0, 100], tickfont=dict(color=text), titlefont=dict(color=text))
         )
         st.plotly_chart(fig_anom, use_container_width=True)
 
