@@ -208,6 +208,13 @@ def load_sample():
 # SCREEN 1: LANDING PAGE (ENTRY PORTAL)
 # ══════════════════════════════════════════════
 if not st.session_state.entered:
+    col_top1, col_top2 = st.columns([10, 2])
+    with col_top2:
+        theme_label = "☀️ Light Mode" if dark else "🌙 Dark Mode"
+        if st.button(theme_label, use_container_width=True):
+            st.session_state.dark_mode = not st.session_state.dark_mode
+            st.rerun()
+
     st.markdown("<br>", unsafe_allow_html=True)
     
     col_l1, col_l2, col_l3 = st.columns([1, 8, 1])
@@ -274,12 +281,12 @@ with st.sidebar:
 
     c1_sb, c2_sb = st.columns(2)
     with c1_sb:
-        theme_label = "Light Mode" if dark else "Dark Mode"
+        theme_label = "☀️ Light" if dark else "🌙 Dark"
         if st.button(theme_label, use_container_width=True):
             st.session_state.dark_mode = not st.session_state.dark_mode
             st.rerun()
     with c2_sb:
-        if st.button("Exit Portal", use_container_width=True):
+        if st.button("Home", use_container_width=True):
             st.session_state.entered = False
             st.rerun()
 
