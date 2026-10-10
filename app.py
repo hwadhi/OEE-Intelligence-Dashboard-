@@ -172,7 +172,7 @@ def load_sample():
                     'Good_Parts': total - rej
                 })
     return pd.DataFrame(rows)
-        for shift in ['A','B','C']:
+    for shift in ['A','B','C']:
             for machine in ['M1-HPDC','M2-HPDC','M3-HPDC','M4-HPDC']:
                 pt=480
                 dt=rnd.randint(60,150) if machine=='M3-HPDC' else rnd.randint(40,100) if shift=='C' else rnd.randint(10,60)
