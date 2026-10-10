@@ -141,13 +141,34 @@ def calc_scm(scm, oee):
 @st.cache_data
 def load_sample():
     import random as rnd
-    rnd.seed(42); np.random.seed(42)
-    rows=[]
-    base=datetime(2026,7,1)
+    from datetime import timedelta as td
+    rnd.seed(42)
+    np.random.seed(42)
+    rows = []
+    base = datetime(2026, 7, 1)
     for day in range(90):
-        d=base+timedelta(days=day) if True else None
-        from datetime import timedelta
-        d=(base+timedelta(days=day)).strftime('%Y-%m-%d')
+        d = (base + td(days=day)).strftime('%Y-%m-%d')
+        for shift in ['A','B','C']:
+            for machine in ['M1-HPDC','M2-HPDC','M3-HPDC','M4-HPDC']:
+                pt  = 480
+                dt  = rnd.randint(60,150) if machine=='M3-HPDC' else \
+                      rnd.randint(40,100) if shift=='C' else \
+                      rnd.randint(10,60)
+                ict = rnd.uniform(28,35)
+                total = int(((pt-dt)*60/ict)*rnd.uniform(0.65,0.95))
+                rej   = int(total * rnd.uniform(0.02,0.12))
+                rows.append({
+                    'Date': d,
+                    'Shift': shift,
+                    'Machine_ID': machine,
+                    'Planned_Production_Time_mins': pt,
+                    'Downtime_mins': dt,
+                    'Ideal_Cycle_Time_sec': round(ict,2),
+                    'Total_Parts_Produced': total,
+                    'Rejected_Parts': rej,
+                    'Good_Parts': total - rej
+                })
+    return pd.DataFrame(rows)
         for shift in ['A','B','C']:
             for machine in ['M1-HPDC','M2-HPDC','M3-HPDC','M4-HPDC']:
                 pt=480
@@ -207,12 +228,14 @@ with st.sidebar:
 
 # ─── LOAD DATA ─────────────────────────────────
 from datetime import timedelta
-try:
-    raw = pd.read_csv(oee_file) if oee_file else load_sample()
-    df  = calc_oee(raw)
-except:
-    df  = calc_oee(load_sample())
-
+if oee_file is not None:
+    try:
+        raw = pd.read_csv(oee_file)
+        df  = calc_oee(raw)
+    except:
+        df  = calc_oee(load_sample())
+else:
+    df = calc_oee(load_sample())
 try:
     scm_raw = pd.read_csv(scm_file) if scm_file else pd.read_csv('scm_data.csv')
     has_scm = True
