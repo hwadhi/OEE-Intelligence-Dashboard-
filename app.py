@@ -27,16 +27,16 @@ if 'dark_mode' not in st.session_state:
 dark = st.session_state.dark_mode
 
 # ─── COLOR PALETTE & CONTRAST FIXES ────────────
-bg       = "#0F1117" if dark else "#F4F6F9"
-surface   = "#1A1D2E" if dark else "#FFFFFF"
-surface2  = "#252840" if dark else "#EBF0F5"
+bg       = "#0F1117" if dark else "#FFFFFF"
+surface   = "#1A1D2E" if dark else "#F8F9FA"
+surface2  = "#252840" if dark else "#EDF2F7"
 text      = "#FAFAFA" if dark else "#111827"
 subtext   = "#9CA3AF" if dark else "#4B5563"
 accent    = "#6C63FF"
 green     = "#00E676" if dark else "#059669"
 red       = "#FF5252" if dark else "#DC2626"
 amber     = "#FFB300" if dark else "#D97706"
-border    = "#6C63FF30" if dark else "#D1D5DB"
+border    = "#6C63FF30" if dark else "#CBD5E1"
 chart_bg  = "rgba(0,0,0,0)"
 
 # ─── DYNAMIC GLOBAL STYLES ─────────────────────
@@ -63,7 +63,7 @@ st.markdown(f"""
     box-shadow: { '0 4px 20px rgba(0,0,0,0.2)' if dark else '0 2px 10px rgba(0,0,0,0.05)' };
   }}
   [data-testid="stMetricValue"] {{
-    font-size: 28px !important;
+    font-size: 26px !important;
     font-weight: 800 !important;
     color: {text} !important;
   }}
@@ -114,7 +114,7 @@ st.markdown(f"""
   }}
 
   @media(max-width: 768px) {{
-    [data-testid="stMetricValue"] {{font-size: 20px !important;}}
+    [data-testid="stMetricValue"] {{font-size: 18px !important;}}
     .block-container {{padding: 1rem 0.5rem !important;}}
   }}
 </style>
@@ -402,7 +402,7 @@ with tab1:
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # Intelligence Summary Box
+    # Intelligence Summary Box (Compact & Cleanly Wrapped)
     if not fdf.empty:
         worst_machine = fdf.groupby("Machine_ID")["OEE"].mean().idxmin()
         worst_shift = fdf.groupby("Shift")["OEE"].mean().idxmin()
@@ -422,12 +422,11 @@ with tab1:
                  text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">
                 Intelligence Summary
             </div>
-            <div style="font-size:13px;color:{text};line-height:1.8;font-weight:500;">
-                Machine <strong style="color:{red}">{worst_machine}</strong> is your lowest performer.
-                Shift <strong style="color:{red}">{worst_shift}</strong> consistently underperforms across machines.
-                Primary bottleneck type is <strong style="color:{amber}">{top_loss}</strong>.
-                Weekly OEE trend is <strong style="color:{"#059669" if (trend_direction == "improving" and not dark) else green if trend_direction == "improving" else red}">{trend_direction}</strong>.
-                Total estimated financial loss this period: <strong style="color:{red}">Rs {tot_loss:,.0f}</strong>.
+            <div style="font-size:13px;color:{text};line-height:1.6;font-weight:500;">
+                Lowest performer: <strong style="color:{red}">{worst_machine}</strong> (Shift <strong style="color:{red}">{worst_shift}</strong>). 
+                Primary loss category: <strong style="color:{amber}">{top_loss}</strong>. 
+                Weekly trend: <strong style="color:{"#059669" if (trend_direction == "improving" and not dark) else green if trend_direction == "improving" else red}">{trend_direction}</strong>. 
+                Period Loss: <strong style="color:{red}">Rs {tot_loss:,.0f}</strong>.
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -451,15 +450,15 @@ with tab1:
             colorscale=[[0, "#DC2626"], [0.4, "#D97706"], [1, "#059669"]] if not dark else [[0, "#FF4B4B"], [0.4, "#FFB84B"], [1, "#4BFF91"]],
             text=[[f"{v:.1f}%" for v in row] for row in pivot_wide.values],
             texttemplate="%{text}",
-            textfont=dict(size=13, color="white"),
+            textfont=dict(size=13, color="#FFFFFF"),
             showscale=True,
             zmin=50, zmax=90
         ))
         fig_heat.update_layout(
             **CHART,
-            title="OEE % matrix by Machine and Shift",
-            xaxis=dict(title="Shift", showgrid=False),
-            yaxis=dict(title="Machine", showgrid=False)
+            title="",
+            xaxis=dict(title="Shift", showgrid=False, tickfont=dict(color=text)),
+            yaxis=dict(title="Machine", showgrid=False, tickfont=dict(color=text))
         )
         st.plotly_chart(fig_heat, use_container_width=True)
 
@@ -556,8 +555,8 @@ with tab2:
         fig5.add_vline(x=95, line_dash="dash", line_color=green, line_width=1,
                        annotation_text="Target 95%", annotation_font_color=green)
         fig5.update_layout(**CHART, title="Supplier OTIF Score (%)",
-                           xaxis=dict(range=[0, 110], showgrid=False),
-                           yaxis=dict(showgrid=False))
+                           xaxis=dict(range=[0, 110], showgrid=False, tickfont=dict(color=text)),
+                           yaxis=dict(showgrid=False, tickfont=dict(color=text)))
         st.plotly_chart(fig5, use_container_width=True)
 
         fig6 = go.Figure(go.Scatter(
@@ -574,8 +573,8 @@ with tab2:
             name=f'Trend (r={corr:.2f})'
         ))
         fig6.update_layout(**CHART, title=f"Inventory Buffer vs OEE (Pearson r = {corr:.3f})",
-                           xaxis=dict(title="Inventory Buffer Days", showgrid=True, gridcolor=f'{border}'),
-                           yaxis=dict(title="Average OEE %", showgrid=True, gridcolor=f'{border}'))
+                           xaxis=dict(title="Inventory Buffer Days", showgrid=True, gridcolor=f'{border}', tickfont=dict(color=text)),
+                           yaxis=dict(title="Average OEE %", showgrid=True, gridcolor=f'{border}', tickfont=dict(color=text)))
         st.plotly_chart(fig6, use_container_width=True)
 
         st.markdown(f"<div style='font-size:11px;font-weight:700;color:{accent};text-transform:uppercase;letter-spacing:1px;margin-bottom:10px'>Supplier Risk Ranking</div>", unsafe_allow_html=True)
@@ -654,8 +653,8 @@ with tab3:
         fig_anom.update_layout(
             **CHART,
             title="OEE Scatter — Anomalous shifts highlighted in red",
-            xaxis=dict(showgrid=False, title="Date"),
-            yaxis=dict(showgrid=True, gridcolor=f"{border}", title="OEE %", range=[0, 100])
+            xaxis=dict(showgrid=False, title="Date", tickfont=dict(color=text)),
+            yaxis=dict(showgrid=True, gridcolor=f"{border}", title="OEE %", range=[0, 100], tickfont=dict(color=text))
         )
         st.plotly_chart(fig_anom, use_container_width=True)
 
